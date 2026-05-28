@@ -7,6 +7,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ProductCard, type Product } from "@/components/ProductCard";
 import { brand } from "@/lib/brand";
+import { categoryImages } from "@/lib/categoryImages";
 import heroImg from "@/assets/hero-accessories.jpg";
 
 export const Route = createFileRoute("/")({
@@ -153,17 +154,26 @@ function HomePage() {
         <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
           {categories.map((c) => {
             const Icon = ICONS[c.icon ?? ""] ?? Smartphone;
+            const categoryImage = categoryImages[c.slug];
             return (
               <Link
                 key={c.slug}
                 to="/shop"
                 search={{ category: c.slug }}
-                className="group flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-5 text-center transition-all hover:-translate-y-1 hover:border-accent hover:shadow-[var(--shadow-glow)]"
+                className="group overflow-hidden rounded-xl border border-border bg-card text-center transition-all hover:-translate-y-1 hover:border-accent hover:shadow-[var(--shadow-glow)]"
               >
-                <div className="grid h-12 w-12 place-items-center rounded-lg bg-secondary text-primary transition-colors group-hover:bg-accent group-hover:text-accent-foreground">
-                  <Icon className="h-6 w-6" />
+                {categoryImage ? (
+                  <div className="aspect-[4/3] w-full bg-secondary">
+                    <img src={categoryImage} alt="" className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                  </div>
+                ) : (
+                  <div className="grid aspect-[4/3] w-full place-items-center bg-secondary text-primary transition-colors group-hover:bg-accent group-hover:text-accent-foreground">
+                    <Icon className="h-8 w-8" />
+                  </div>
+                )}
+                <div className="flex min-h-14 items-center justify-center px-3 py-3">
+                  <span className="text-xs font-medium leading-tight">{c.name}</span>
                 </div>
-                <span className="text-xs font-medium leading-tight">{c.name}</span>
               </Link>
             );
           })}

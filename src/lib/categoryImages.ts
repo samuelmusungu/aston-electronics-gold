@@ -1,0 +1,17 @@
+export const categoryImages: Record<string, string> = {
+  "computer-accessories": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Apple_mouse_and_keyboard_%28Unsplash%29.jpg/960px-Apple_mouse_and_keyboard_%28Unsplash%29.jpg",
+  keyboards: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Apple_mouse_and_keyboard_%28Unsplash%29.jpg/960px-Apple_mouse_and_keyboard_%28Unsplash%29.jpg",
+  mice: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/A_black_wireless_computer_mouse.jpg/960px-A_black_wireless_computer_mouse.jpg",
+  "mouse-pads": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Logitech_Red_mouse_on_a_mouse_pad.jpg/960px-Logitech_Red_mouse_on_a_mouse_pad.jpg",
+  "sd-cards": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/MicroSD_card_2GB_focus-stacked.jpg/960px-MicroSD_card_2GB_focus-stacked.jpg",
+  "flash-disks": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Kingston_Technology_DataTraveler_G4_USB_flash_drive_USB_3.0_32_Gb.jpg/960px-Kingston_Technology_DataTraveler_G4_USB_flash_drive_USB_3.0_32_Gb.jpg",
+  "sd-card-readers": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/SD_card_reader.jpg/960px-SD_card_reader.jpg",
+  "usb-readers": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/2023_Hub_USB_2.0.jpg/960px-2023_Hub_USB_2.0.jpg",
+  "laptop-chargers": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Lenovo_65W_20V_AC_adapter_%28FRU_42T5283%29_for_ThinkPad_laptops.jpg/960px-Lenovo_65W_20V_AC_adapter_%28FRU_42T5283%29_for_ThinkPad_laptops.jpg",
+  monitors: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/EIZO_Foris_FG2421_VGA_computer_monitor_displaying_test_pattern.png/960px-EIZO_Foris_FG2421_VGA_computer_monitor_displaying_test_pattern.png",
+  "hdmi-cables": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/HDMI_CableEnd.jpg/960px-HDMI_CableEnd.jpg",
+  "pc-gaming-pads": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Xbox-360-Wireless-Controller-White.jpg/960px-Xbox-360-Wireless-Controller-White.jpg",
+  desktops: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/HP_SFF_desktop_computer_inside.jpg/960px-HP_SFF_desktop_computer_inside.jpg",
+  "laptop-accessories": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Laptop_stand.jpg/960px-Laptop_stand.jpg",
+  "cables-adapters": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Adapter_cable_hdmi_dvi-d_IMGP1647_smial_wp.jpg/960px-Adapter_cable_hdmi_dvi-d_IMGP1647_smial_wp.jpg",
+};
