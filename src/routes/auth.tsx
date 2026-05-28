@@ -7,6 +7,8 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { brand } from "@/lib/brand";
 
+const PASSWORD_REQUIREMENTS = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
+
 export const Route = createFileRoute("/auth")({
   head: () => ({ meta: [{ title: `Sign in - ${brand.name}` }] }),
   component: AuthPage,
@@ -18,22 +20,37 @@ function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
+  const isLocalhost = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+  const redirectUrl = import.meta.env.VITE_SITE_URL || (isLocalhost ? window.location.origin : brand.website || window.location.origin);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
+        if (!PASSWORD_REQUIREMENTS.test(password)) {
+          toast.error("Password must be at least 8 characters and include a letter, number, and symbol.");
+          return;
+        }
+
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/`,
-            data: { full_name: name },
+            emailRedirectTo: `${redirectUrl.replace(/\/$/, "")}/`,
+            data: { full_name: name, phone },
           },
         });
         if (error) throw error;
+
+        if (data.user && data.user.identities?.length === 0) {
+          toast.error("An account with this email already exists. Please sign in instead.");
+          setMode("signin");
+          return;
+        }
+
         toast.success("Account created! Check your email to verify.");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -64,16 +81,27 @@ function AuthPage() {
             {mode === "signup" && (
               <div>
                 <label className="text-sm font-medium">Full name</label>
-                <input required value={name} onChange={(e) => setName(e.target.value)} className="mt-1 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm" />
+                <input required autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} className="mt-1 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm" />
+              </div>
+            )}
+            {mode === "signup" && (
+              <div>
+                <label className="text-sm font-medium">Phone number</label>
+                <input required type="tel" autoComplete="tel" placeholder="+254 700 000 000" value={phone} onChange={(e) => setPhone(e.target.value)} className="mt-1 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm" />
               </div>
             )}
             <div>
               <label className="text-sm font-medium">Email</label>
-              <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm" />
+              <input required type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm" />
             </div>
             <div>
               <label className="text-sm font-medium">Password</label>
-              <input required type="password" minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm" />
+              <input required type="password" minLength={8} pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}" title="Use at least 8 characters with a letter, number, and symbol." autoComplete={mode === "signin" ? "current-password" : "new-password"} value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm" />
+              {mode === "signup" && (
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Use at least 8 characters with a letter, number, and symbol.
+                </p>
+              )}
             </div>
             <Button type="submit" variant="hero" size="lg" className="w-full" disabled={loading}>
               {loading ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}
