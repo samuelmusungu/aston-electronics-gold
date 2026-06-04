@@ -7,7 +7,9 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { brand } from "@/lib/brand";
 
 export const Route = createFileRoute("/admin")({
-  head: () => ({ meta: [{ title: `Admin - ${brand.name}` }, { name: "robots", content: "noindex" }] }),
+  head: () => ({
+    meta: [{ title: `Admin - ${brand.name}` }, { name: "robots", content: "noindex" }],
+  }),
   component: AdminLayout,
 });
 
@@ -26,7 +28,9 @@ function AdminLayout() {
     return (
       <div className="min-h-screen bg-background">
         <SiteHeader />
-        <div className="grid place-items-center py-24 text-sm text-muted-foreground">Checking access…</div>
+        <div className="grid place-items-center py-24 text-sm text-muted-foreground">
+          Checking access…
+        </div>
       </div>
     );
   }
@@ -38,8 +42,12 @@ function AdminLayout() {
         <div className="mx-auto max-w-md px-4 py-20 text-center">
           <ShieldAlert className="mx-auto h-12 w-12 text-accent" />
           <h1 className="mt-4 font-display text-2xl font-bold">Sign in required</h1>
-          <p className="mt-2 text-sm text-muted-foreground">Please sign in with an admin account to access this area.</p>
-          <Button asChild variant="hero" className="mt-6"><Link to="/auth">Sign in</Link></Button>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Please sign in with an admin account to access this area.
+          </p>
+          <Button asChild variant="hero" className="mt-6">
+            <Link to="/auth">Sign in</Link>
+          </Button>
         </div>
       </div>
     );
@@ -53,9 +61,12 @@ function AdminLayout() {
           <ShieldAlert className="mx-auto h-12 w-12 text-destructive" />
           <h1 className="mt-4 font-display text-2xl font-bold">Not authorized</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Your account ({session.user.email}) doesn't have admin access. Ask the site owner to grant you the admin role.
+            Your account ({session.user.email}) doesn't have admin access. Ask the site owner to
+            grant you the admin role.
           </p>
-          <Button asChild variant="outline" className="mt-6"><Link to="/">Back home</Link></Button>
+          <Button asChild variant="outline" className="mt-6">
+            <Link to="/">Back home</Link>
+          </Button>
         </div>
       </div>
     );
@@ -67,15 +78,17 @@ function AdminLayout() {
   return (
     <div className="min-h-screen bg-secondary/30">
       <SiteHeader />
-      <div className="mx-auto grid max-w-7xl gap-6 px-4 py-6 md:grid-cols-[220px_1fr] md:px-6 md:py-8">
-        <aside className="rounded-xl border border-border bg-card p-3">
-          <div className="px-2 pb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Admin</div>
-          <nav className="flex flex-col gap-1">
+      <div className="mx-auto grid max-w-7xl gap-4 px-3 py-4 sm:px-4 md:grid-cols-[220px_1fr] md:gap-6 md:px-6 md:py-8">
+        <aside className="rounded-xl border border-border bg-card p-2 md:p-3">
+          <div className="px-2 pb-2 text-xs font-semibold uppercase text-muted-foreground md:pb-3 md:tracking-wider">
+            Admin
+          </div>
+          <nav className="flex gap-1 overflow-x-auto pb-1 md:flex-col md:overflow-visible md:pb-0">
             {NAV.map((n) => (
               <Link
                 key={n.to}
                 to={n.to}
-                className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors ${
+                className={`flex shrink-0 items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors ${
                   isActive(n.to, n.exact)
                     ? "bg-primary text-primary-foreground"
                     : "text-foreground/80 hover:bg-secondary"
@@ -90,7 +103,7 @@ function AdminLayout() {
                 await supabase.auth.signOut();
                 window.location.href = "/";
               }}
-              className="mt-2 flex items-center gap-2 rounded-md px-3 py-2 text-sm text-foreground/70 hover:bg-secondary"
+              className="flex shrink-0 items-center gap-2 rounded-md px-3 py-2 text-sm text-foreground/70 hover:bg-secondary md:mt-2"
             >
               <LogOut className="h-4 w-4" /> Sign out
             </button>

@@ -22,7 +22,11 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-lg">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
-        <Link to="/" className="flex items-center gap-3 font-display text-lg font-bold" aria-label={`${brand.name} home`}>
+        <Link
+          to="/"
+          className="flex items-center gap-3 font-display text-lg font-bold"
+          aria-label={`${brand.name} home`}
+        >
           <img src={logo} alt={brand.name} className="h-10 w-auto" />
         </Link>
 
@@ -50,7 +54,9 @@ export function SiteHeader() {
           )}
           {session ? (
             <button
-              onClick={async () => { await supabase.auth.signOut(); }}
+              onClick={async () => {
+                await supabase.auth.signOut();
+              }}
               className="hidden h-10 items-center gap-1.5 rounded-lg border border-border bg-card px-3 text-xs font-medium hover:bg-secondary md:inline-flex"
               title={session.user.email ?? ""}
             >
@@ -98,6 +104,34 @@ export function SiteHeader() {
                 {n.label}
               </Link>
             ))}
+            {isAdmin && (
+              <Link
+                to="/admin"
+                onClick={() => setOpen(false)}
+                className="mt-2 flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground"
+              >
+                <Shield className="h-4 w-4" /> Admin dashboard
+              </Link>
+            )}
+            {session ? (
+              <button
+                onClick={async () => {
+                  setOpen(false);
+                  await supabase.auth.signOut();
+                }}
+                className="flex items-center gap-2 rounded-md px-3 py-2 text-left text-sm font-medium hover:bg-secondary"
+              >
+                <LogOut className="h-4 w-4" /> Sign out
+              </button>
+            ) : (
+              <Link
+                to="/auth"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium hover:bg-secondary"
+              >
+                <LogIn className="h-4 w-4" /> Sign in
+              </Link>
+            )}
           </nav>
         </div>
       )}

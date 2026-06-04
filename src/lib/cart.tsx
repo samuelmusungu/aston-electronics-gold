@@ -28,13 +28,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) setItems(JSON.parse(stored));
-    } catch {}
+    } catch {
+      setItems([]);
+    }
   }, []);
 
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-    } catch {}
+    } catch {
+      // Ignore storage failures so shopping still works in-memory.
+    }
   }, [items]);
 
   const add: CartContextValue["add"] = (item, qty = 1) => {
@@ -50,7 +54,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const remove = (id: string) => setItems((prev) => prev.filter((i) => i.id !== id));
   const update = (id: string, qty: number) =>
     setItems((prev) =>
-      qty <= 0 ? prev.filter((i) => i.id !== id) : prev.map((i) => (i.id === id ? { ...i, quantity: qty } : i)),
+      qty <= 0
+        ? prev.filter((i) => i.id !== id)
+        : prev.map((i) => (i.id === id ? { ...i, quantity: qty } : i)),
     );
   const clear = () => setItems([]);
 
@@ -71,4 +77,8 @@ export function useCart() {
 }
 
 export const formatKES = (n: number) =>
-  new Intl.NumberFormat("en-KE", { style: "currency", currency: "KES", maximumFractionDigits: 0 }).format(n);
+  new Intl.NumberFormat("en-KE", {
+    style: "currency",
+    currency: "KES",
+    maximumFractionDigits: 0,
+  }).format(n);

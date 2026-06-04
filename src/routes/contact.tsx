@@ -9,7 +9,10 @@ export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
       { title: `Contact - ${brand.name} Kenya` },
-      { name: "description", content: `Get in touch with ${brand.name}. WhatsApp, phone or email.` },
+      {
+        name: "description",
+        content: `Get in touch with ${brand.name}. WhatsApp, phone or email.`,
+      },
     ],
   }),
   component: ContactPage,
@@ -27,31 +30,58 @@ function ContactPage() {
       <SiteHeader />
       <div className="mx-auto max-w-5xl px-4 py-14 md:px-6">
         <h1 className="font-display text-3xl font-bold md:text-4xl">Talk to us</h1>
-        <p className="mt-2 text-muted-foreground">We reply fast — usually within an hour during business hours.</p>
+        <p className="mt-2 text-muted-foreground">
+          We reply fast — usually within an hour during business hours.
+        </p>
 
         <div className="mt-8 grid gap-4 md:grid-cols-2">
-          <a href={brand.whatsappHref} target="_blank" rel="noreferrer" className="group rounded-2xl border-2 border-border bg-card p-6 transition-all hover:border-accent hover:shadow-[var(--shadow-glow)]">
-            <div className="grid h-12 w-12 place-items-center rounded-xl bg-success text-success-foreground"><MessageCircle className="h-6 w-6" /></div>
+          <a
+            href={brand.whatsappHref}
+            target="_blank"
+            rel="noreferrer"
+            className="group rounded-2xl border-2 border-border bg-card p-6 transition-all hover:border-accent hover:shadow-[var(--shadow-glow)]"
+          >
+            <div className="grid h-12 w-12 place-items-center rounded-xl bg-success text-success-foreground">
+              <MessageCircle className="h-6 w-6" />
+            </div>
             <h3 className="mt-4 font-display text-lg font-bold">WhatsApp</h3>
-            <p className="mt-1 text-sm text-muted-foreground">Fastest way to reach us. Tap to start a chat.</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Fastest way to reach us. Tap to start a chat.
+            </p>
             <p className="mt-3 font-semibold text-accent group-hover:underline">{brand.phone} →</p>
           </a>
-          <a href={brand.phoneHref} className="group rounded-2xl border-2 border-border bg-card p-6 transition-all hover:border-accent hover:shadow-[var(--shadow-glow)]">
-            <div className="grid h-12 w-12 place-items-center rounded-xl bg-primary text-primary-foreground"><Phone className="h-6 w-6" /></div>
+          <a
+            href={brand.phoneHref}
+            className="group rounded-2xl border-2 border-border bg-card p-6 transition-all hover:border-accent hover:shadow-[var(--shadow-glow)]"
+          >
+            <div className="grid h-12 w-12 place-items-center rounded-xl bg-primary text-primary-foreground">
+              <Phone className="h-6 w-6" />
+            </div>
             <h3 className="mt-4 font-display text-lg font-bold">Call us</h3>
             <p className="mt-1 text-sm text-muted-foreground">Mon-Sat, 8am-7pm</p>
             <p className="mt-3 font-semibold text-accent group-hover:underline">{brand.phone}</p>
           </a>
-          <a href={brand.emailHref} className="group rounded-2xl border-2 border-border bg-card p-6 transition-all hover:border-accent">
-            <div className="grid h-12 w-12 place-items-center rounded-xl bg-accent text-accent-foreground"><Mail className="h-6 w-6" /></div>
+          <a
+            href={brand.emailHref}
+            className="group rounded-2xl border-2 border-border bg-card p-6 transition-all hover:border-accent"
+          >
+            <div className="grid h-12 w-12 place-items-center rounded-xl bg-accent text-accent-foreground">
+              <Mail className="h-6 w-6" />
+            </div>
             <h3 className="mt-4 font-display text-lg font-bold">Email</h3>
-            <p className="mt-1 text-sm text-muted-foreground">For order issues & wholesale inquiries.</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              For order issues & wholesale inquiries.
+            </p>
             <p className="mt-3 font-semibold text-accent group-hover:underline">{brand.email}</p>
           </a>
           <div className="rounded-2xl border-2 border-border bg-card p-6">
-            <div className="grid h-12 w-12 place-items-center rounded-xl bg-secondary"><MapPin className="h-6 w-6" /></div>
+            <div className="grid h-12 w-12 place-items-center rounded-xl bg-secondary">
+              <MapPin className="h-6 w-6" />
+            </div>
             <h3 className="mt-4 font-display text-lg font-bold">Visit / pickup</h3>
-            <p className="mt-1 text-sm text-muted-foreground">Pickup details are shared after order confirmation.</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Pickup details are shared after order confirmation.
+            </p>
             <p className="mt-3 font-semibold">{brand.location}</p>
           </div>
         </div>

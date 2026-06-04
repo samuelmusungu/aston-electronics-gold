@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ShoppingCart } from "lucide-react";
+import { useState } from "react";
 import { useCart, formatKES } from "@/lib/cart";
 import { Button } from "@/components/ui/button";
 
@@ -16,6 +17,7 @@ export type Product = {
 
 export function ProductCard({ p }: { p: Product }) {
   const { add } = useCart();
+  const [imageFailed, setImageFailed] = useState(false);
   const discount =
     p.compare_at_price_kes && p.compare_at_price_kes > p.price_kes
       ? Math.round(((p.compare_at_price_kes - p.price_kes) / p.compare_at_price_kes) * 100)
@@ -28,18 +30,19 @@ export function ProductCard({ p }: { p: Product }) {
         params={{ slug: p.slug }}
         className="relative block aspect-square overflow-hidden bg-secondary"
       >
-        {p.image_url ? (
+        {p.image_url && !imageFailed ? (
           <img
             src={p.image_url}
             alt={p.name}
             loading="lazy"
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            onError={(e) => ((e.currentTarget.style.display = "none"))}
+            onError={() => setImageFailed(true)}
           />
-        ) : null}
-        <div className="absolute inset-0 grid place-items-center text-4xl font-bold text-muted-foreground/20">
-          {p.name.charAt(0)}
-        </div>
+        ) : (
+          <div className="absolute inset-0 grid place-items-center text-4xl font-bold text-muted-foreground/20">
+            {p.name.charAt(0)}
+          </div>
+        )}
         {discount > 0 && (
           <span className="absolute left-3 top-3 rounded-full bg-accent px-2.5 py-1 text-xs font-bold text-accent-foreground">
             -{discount}%
@@ -47,14 +50,22 @@ export function ProductCard({ p }: { p: Product }) {
         )}
       </Link>
       <div className="flex flex-1 flex-col p-4">
-        {p.brand && <div className="text-xs uppercase tracking-wider text-muted-foreground">{p.brand}</div>}
-        <Link to="/product/$slug" params={{ slug: p.slug }} className="mt-1 line-clamp-2 font-medium hover:text-accent">
+        {p.brand && (
+          <div className="text-xs uppercase tracking-wider text-muted-foreground">{p.brand}</div>
+        )}
+        <Link
+          to="/product/$slug"
+          params={{ slug: p.slug }}
+          className="mt-1 line-clamp-2 font-medium hover:text-accent"
+        >
           {p.name}
         </Link>
         <div className="mt-3 flex items-baseline gap-2">
           <span className="font-display text-lg font-bold">{formatKES(p.price_kes)}</span>
           {p.compare_at_price_kes && (
-            <span className="text-sm text-muted-foreground line-through">{formatKES(p.compare_at_price_kes)}</span>
+            <span className="text-sm text-muted-foreground line-through">
+              {formatKES(p.compare_at_price_kes)}
+            </span>
           )}
         </div>
         <Button

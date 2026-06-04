@@ -18,7 +18,10 @@ function AdminOverview() {
         supabase.from("orders").select("id", { count: "exact", head: true }),
         supabase.from("orders").select("total_kes").neq("status", "cancelled"),
       ]);
-      const revenue = (rev.data ?? []).reduce((s, r: any) => s + Number(r.total_kes), 0);
+      const revenue = ((rev.data ?? []) as { total_kes: number | string }[]).reduce(
+        (s, r) => s + Number(r.total_kes),
+        0,
+      );
       return {
         products: p.count ?? 0,
         categories: c.count ?? 0,

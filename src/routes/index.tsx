@@ -1,6 +1,21 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight, Truck, ShieldCheck, Smartphone, Headphones, BatteryCharging, Cable, Shield, CarFront, Speaker, Watch, Instagram, Facebook, Music2 } from "lucide-react";
+import {
+  ArrowRight,
+  Truck,
+  ShieldCheck,
+  Smartphone,
+  Headphones,
+  BatteryCharging,
+  Cable,
+  Shield,
+  CarFront,
+  Speaker,
+  Watch,
+  Instagram,
+  Facebook,
+  Music2,
+} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -14,14 +29,25 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: `${brand.name} - Electronics & Mobile Accessories Kenya` },
-      { name: "description", content: "Premium electronics, phone cases, chargers, power banks and audio gear. Pay with M-Pesa, fast delivery from Naivasha." },
+      {
+        name: "description",
+        content:
+          "Premium electronics, phone cases, chargers, power banks and audio gear. Pay with M-Pesa, fast delivery from Naivasha.",
+      },
     ],
   }),
   component: HomePage,
 });
 
 const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
-  Smartphone, Cable, BatteryCharging, Headphones, Shield, CarFront, Speaker, Watch,
+  Smartphone,
+  Cable,
+  BatteryCharging,
+  Headphones,
+  Shield,
+  CarFront,
+  Speaker,
+  Watch,
 };
 
 function HomePage() {
@@ -41,7 +67,10 @@ function HomePage() {
   const { data: categories = [] } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("categories").select("name,slug,icon").order("name");
+      const { data, error } = await supabase
+        .from("categories")
+        .select("name,slug,icon")
+        .order("name");
       if (error) throw error;
       return data ?? [];
     },
@@ -53,24 +82,36 @@ function HomePage() {
 
       {/* HERO */}
       <section className="relative overflow-hidden bg-primary text-primary-foreground">
-        <div className="absolute inset-0 opacity-40" style={{ background: "var(--gradient-hero)" }} />
+        <div
+          className="absolute inset-0 opacity-40"
+          style={{ background: "var(--gradient-hero)" }}
+        />
         <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 md:grid-cols-2 md:px-6 md:py-24">
           <div>
             <span className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-xs font-semibold text-accent">
               Same-day dispatch from Naivasha
             </span>
             <h1 className="mt-5 font-display text-4xl font-bold leading-[1.05] sm:text-5xl md:text-6xl">
-              Power up your<br />
+              Power up your
+              <br />
               <span className="text-accent">mobile life.</span>
             </h1>
             <p className="mt-5 max-w-md text-base text-primary-foreground/75 md:text-lg">
-              Premium electronics, phone cases, fast chargers, power banks, and audio gear delivered across Kenya. Pay with M-Pesa or cash on delivery.
+              Premium electronics, phone cases, fast chargers, power banks, and audio gear delivered
+              across Kenya. Pay with M-Pesa or cash on delivery.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild variant="hero" size="xl">
-                <Link to="/shop">Shop now <ArrowRight className="h-5 w-5" /></Link>
+                <Link to="/shop">
+                  Shop now <ArrowRight className="h-5 w-5" />
+                </Link>
               </Button>
-              <Button asChild variant="outline" size="xl" className="border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground">
+              <Button
+                asChild
+                variant="outline"
+                size="xl"
+                className="border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+              >
                 <Link to="/about">Why Aston?</Link>
               </Button>
             </div>
@@ -104,9 +145,16 @@ function HomePage() {
               </a>
             </div>
             <div className="mt-10 grid max-w-md grid-cols-3 gap-4 text-xs text-primary-foreground/70">
-              <div><div className="font-display text-2xl font-bold text-accent">500+</div>Products</div>
-              <div><div className="font-display text-2xl font-bold text-accent">24h</div>Fast dispatch</div>
-              <div><div className="font-display text-2xl font-bold text-accent">M-Pesa</div>Easy checkout</div>
+              <div>
+                <div className="font-display text-2xl font-bold text-accent">500+</div>Products
+              </div>
+              <div>
+                <div className="font-display text-2xl font-bold text-accent">24h</div>Fast dispatch
+              </div>
+              <div>
+                <div className="font-display text-2xl font-bold text-accent">M-Pesa</div>Easy
+                checkout
+              </div>
             </div>
           </div>
           <div className="relative">
@@ -164,7 +212,11 @@ function HomePage() {
               >
                 {categoryImage ? (
                   <div className="aspect-[4/3] w-full bg-secondary">
-                    <img src={categoryImage} alt="" className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                    <img
+                      src={categoryImage}
+                      alt=""
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
                   </div>
                 ) : (
                   <div className="grid aspect-[4/3] w-full place-items-center bg-secondary text-primary transition-colors group-hover:bg-accent group-hover:text-accent-foreground">
@@ -187,12 +239,17 @@ function HomePage() {
             <h2 className="font-display text-3xl font-bold md:text-4xl">Featured products</h2>
             <p className="mt-2 text-muted-foreground">Top picks our customers love.</p>
           </div>
-          <Link to="/shop" className="hidden items-center gap-1 text-sm font-semibold text-accent hover:underline sm:inline-flex">
+          <Link
+            to="/shop"
+            className="hidden items-center gap-1 text-sm font-semibold text-accent hover:underline sm:inline-flex"
+          >
             View all <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
         <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-          {featured.map((p) => <ProductCard key={p.id} p={p} />)}
+          {featured.map((p) => (
+            <ProductCard key={p.id} p={p} />
+          ))}
         </div>
       </section>
 
@@ -201,10 +258,16 @@ function HomePage() {
         <div className="relative overflow-hidden rounded-3xl bg-primary p-10 text-primary-foreground md:p-16">
           <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-accent/30 blur-3xl" />
           <div className="relative max-w-2xl">
-            <h2 className="font-display text-3xl font-bold md:text-4xl">Need help finding the right accessory?</h2>
-            <p className="mt-3 text-primary-foreground/75">Chat with us on WhatsApp and we'll match you to the perfect fit for your phone.</p>
+            <h2 className="font-display text-3xl font-bold md:text-4xl">
+              Need help finding the right accessory?
+            </h2>
+            <p className="mt-3 text-primary-foreground/75">
+              Chat with us on WhatsApp and we'll match you to the perfect fit for your phone.
+            </p>
             <Button asChild variant="hero" size="lg" className="mt-6">
-              <a href={brand.whatsappHref} target="_blank" rel="noreferrer">Chat on WhatsApp</a>
+              <a href={brand.whatsappHref} target="_blank" rel="noreferrer">
+                Chat on WhatsApp
+              </a>
             </Button>
           </div>
         </div>

@@ -37,14 +37,13 @@ function CheckoutPage() {
     if (items.length === 0) return toast.error("Your cart is empty");
     setSubmitting(true);
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        throw new Error("Please sign in before placing an order.");
-      }
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       const { data: order, error } = await supabase
         .from("orders")
         .insert({
-          user_id: user.id,
+          user_id: user?.id ?? null,
           customer_name: form.customer_name,
           customer_phone: form.customer_phone,
           customer_email: form.customer_email || null,
@@ -72,8 +71,8 @@ function CheckoutPage() {
       clear();
       setOrderId(order.id);
       toast.success("Order placed successfully!");
-    } catch (err: any) {
-      toast.error(err.message ?? "Could not place order");
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Could not place order");
     } finally {
       setSubmitting(false);
     }
@@ -87,14 +86,23 @@ function CheckoutPage() {
           <CheckCircle2 className="mx-auto h-16 w-16 text-success" />
           <h1 className="mt-6 font-display text-3xl font-bold">Order confirmed!</h1>
           <p className="mt-3 text-muted-foreground">
-            Order ID: <span className="font-mono text-foreground">{orderId.slice(0, 8).toUpperCase()}</span>
+            Order ID:{" "}
+            <span className="font-mono text-foreground">{orderId.slice(0, 8).toUpperCase()}</span>
           </p>
           <p className="mt-2 text-muted-foreground">
-            We've received your order. {form.payment_method === "mpesa" ? "Check your phone for the M-Pesa STK push prompt." : "Pay cash on delivery."} Our team will contact you shortly to confirm delivery.
+            We've received your order.{" "}
+            {form.payment_method === "mpesa"
+              ? "Check your phone for the M-Pesa STK push prompt."
+              : "Pay cash on delivery."}{" "}
+            Our team will contact you shortly to confirm delivery.
           </p>
           <div className="mt-8 flex justify-center gap-3">
-            <Button asChild variant="hero"><Link to="/shop">Continue shopping</Link></Button>
-            <Button asChild variant="outline"><Link to="/">Back home</Link></Button>
+            <Button asChild variant="hero">
+              <Link to="/shop">Continue shopping</Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link to="/">Back home</Link>
+            </Button>
           </div>
         </div>
         <SiteFooter />
@@ -111,7 +119,9 @@ function CheckoutPage() {
         {items.length === 0 ? (
           <div className="mt-10 rounded-2xl border border-border bg-card p-10 text-center">
             <p className="text-muted-foreground">Your cart is empty.</p>
-            <Button asChild className="mt-4"><Link to="/shop">Browse products</Link></Button>
+            <Button asChild className="mt-4">
+              <Link to="/shop">Browse products</Link>
+            </Button>
           </div>
         ) : (
           <form onSubmit={submit} className="mt-8 grid gap-8 lg:grid-cols-[1fr_380px]">
@@ -119,12 +129,40 @@ function CheckoutPage() {
               <div>
                 <h2 className="font-display text-lg font-bold">Delivery details</h2>
                 <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                  <Field label="Full name" required value={form.customer_name} onChange={(v) => update("customer_name", v)} />
-                  <Field label="Phone (M-Pesa)" required type="tel" placeholder="07XX XXX XXX" value={form.customer_phone} onChange={(v) => update("customer_phone", v)} />
-                  <Field label="Email (optional)" type="email" value={form.customer_email} onChange={(v) => update("customer_email", v)} />
-                  <Field label="Town / City" required value={form.delivery_city} onChange={(v) => update("delivery_city", v)} />
+                  <Field
+                    label="Full name"
+                    required
+                    value={form.customer_name}
+                    onChange={(v) => update("customer_name", v)}
+                  />
+                  <Field
+                    label="Phone (M-Pesa)"
+                    required
+                    type="tel"
+                    placeholder="07XX XXX XXX"
+                    value={form.customer_phone}
+                    onChange={(v) => update("customer_phone", v)}
+                  />
+                  <Field
+                    label="Email (optional)"
+                    type="email"
+                    value={form.customer_email}
+                    onChange={(v) => update("customer_email", v)}
+                  />
+                  <Field
+                    label="Town / City"
+                    required
+                    value={form.delivery_city}
+                    onChange={(v) => update("delivery_city", v)}
+                  />
                   <div className="sm:col-span-2">
-                    <Field label="Delivery address" required value={form.delivery_address} onChange={(v) => update("delivery_address", v)} placeholder="Estate, building, house number" />
+                    <Field
+                      label="Delivery address"
+                      required
+                      value={form.delivery_address}
+                      onChange={(v) => update("delivery_address", v)}
+                      placeholder="Estate, building, house number"
+                    />
                   </div>
                   <div className="sm:col-span-2">
                     <label className="text-sm font-medium">Order notes (optional)</label>
@@ -141,12 +179,27 @@ function CheckoutPage() {
               <div>
                 <h2 className="font-display text-lg font-bold">Payment method</h2>
                 <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                  <PayOption icon={Smartphone} label="M-Pesa" description="STK push to your phone" value="mpesa" current={form.payment_method} onChange={(v: string) => update("payment_method", v)} />
-                  <PayOption icon={Banknote} label="Cash on Delivery" description="Pay when you receive" value="cod" current={form.payment_method} onChange={(v: string) => update("payment_method", v)} />
+                  <PayOption
+                    icon={Smartphone}
+                    label="M-Pesa"
+                    description="STK push to your phone"
+                    value="mpesa"
+                    current={form.payment_method}
+                    onChange={(v) => update("payment_method", v)}
+                  />
+                  <PayOption
+                    icon={Banknote}
+                    label="Cash on Delivery"
+                    description="Pay when you receive"
+                    value="cod"
+                    current={form.payment_method}
+                    onChange={(v) => update("payment_method", v)}
+                  />
                 </div>
                 {form.payment_method === "mpesa" && (
                   <p className="mt-3 rounded-lg bg-secondary p-3 text-xs text-muted-foreground">
-                    Note: M-Pesa STK push activation requires Daraja API credentials. After placing the order, our team will send a manual M-Pesa prompt to your phone.
+                    Note: M-Pesa STK push activation requires Daraja API credentials. After placing
+                    the order, our team will send a manual M-Pesa prompt to your phone.
                   </p>
                 )}
               </div>
@@ -157,19 +210,34 @@ function CheckoutPage() {
               <div className="mt-4 space-y-2 max-h-72 overflow-auto">
                 {items.map((i) => (
                   <div key={i.id} className="flex justify-between text-sm">
-                    <span className="line-clamp-1 pr-2">{i.name} x {i.quantity}</span>
+                    <span className="line-clamp-1 pr-2">
+                      {i.name} x {i.quantity}
+                    </span>
                     <span className="font-medium">{formatKES(i.price_kes * i.quantity)}</span>
                   </div>
                 ))}
               </div>
               <div className="mt-4 space-y-2 border-t border-border pt-4 text-sm">
-                <div className="flex justify-between"><span className="text-muted-foreground">Subtotal</span><span>{formatKES(total)}</span></div>
-                <div className="flex justify-between"><span className="text-muted-foreground">Delivery</span><span>{total >= 3000 ? "Free" : "TBD"}</span></div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Subtotal</span>
+                  <span>{formatKES(total)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Delivery</span>
+                  <span>{total >= 3000 ? "Free" : "TBD"}</span>
+                </div>
                 <div className="flex justify-between border-t border-border pt-2 font-display text-lg font-bold">
-                  <span>Total</span><span>{formatKES(total)}</span>
+                  <span>Total</span>
+                  <span>{formatKES(total)}</span>
                 </div>
               </div>
-              <Button type="submit" variant="hero" size="lg" className="mt-6 w-full" disabled={submitting}>
+              <Button
+                type="submit"
+                variant="hero"
+                size="lg"
+                className="mt-6 w-full"
+                disabled={submitting}
+              >
                 {submitting ? "Placing order..." : `Place order - ${formatKES(total)}`}
               </Button>
             </aside>
@@ -181,12 +249,27 @@ function CheckoutPage() {
   );
 }
 
-function Field({ label, value, onChange, required, type = "text", placeholder }: {
-  label: string; value: string; onChange: (v: string) => void; required?: boolean; type?: string; placeholder?: string;
+function Field({
+  label,
+  value,
+  onChange,
+  required,
+  type = "text",
+  placeholder,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  required?: boolean;
+  type?: string;
+  placeholder?: string;
 }) {
   return (
     <div>
-      <label className="text-sm font-medium">{label}{required && <span className="text-destructive"> *</span>}</label>
+      <label className="text-sm font-medium">
+        {label}
+        {required && <span className="text-destructive"> *</span>}
+      </label>
       <input
         type={type}
         required={required}
@@ -199,17 +282,35 @@ function Field({ label, value, onChange, required, type = "text", placeholder }:
   );
 }
 
-function PayOption({ icon: Icon, label, description, value, current, onChange }: any) {
+function PayOption({
+  icon: Icon,
+  label,
+  description,
+  value,
+  current,
+  onChange,
+}: {
+  icon: typeof Smartphone;
+  label: string;
+  description: string;
+  value: "mpesa" | "cod";
+  current: "mpesa" | "cod";
+  onChange: (value: "mpesa" | "cod") => void;
+}) {
   const active = current === value;
   return (
     <button
       type="button"
       onClick={() => onChange(value)}
       className={`flex items-center gap-3 rounded-xl border-2 p-4 text-left transition-all ${
-        active ? "border-accent bg-accent/5 shadow-[var(--shadow-glow)]" : "border-border bg-background hover:border-accent/50"
+        active
+          ? "border-accent bg-accent/5 shadow-[var(--shadow-glow)]"
+          : "border-border bg-background hover:border-accent/50"
       }`}
     >
-      <div className={`grid h-10 w-10 place-items-center rounded-lg ${active ? "bg-accent text-accent-foreground" : "bg-secondary"}`}>
+      <div
+        className={`grid h-10 w-10 place-items-center rounded-lg ${active ? "bg-accent text-accent-foreground" : "bg-secondary"}`}
+      >
         <Icon className="h-5 w-5" />
       </div>
       <div>

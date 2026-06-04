@@ -20,7 +20,8 @@ export function SiteFooter() {
             </span>
           </div>
           <p className="mt-3 text-sm text-primary-foreground/70">
-            Genuine electronics and mobile accessories from {brand.location}. Fast delivery, fair prices.
+            Genuine electronics and mobile accessories from {brand.location}. Fast delivery, fair
+            prices.
           </p>
           <div className="mt-5 flex items-center gap-2">
             {SOCIALS.map((social) => (
@@ -40,29 +41,75 @@ export function SiteFooter() {
         <div>
           <h4 className="font-display text-sm font-semibold uppercase tracking-wider">Shop</h4>
           <ul className="mt-3 space-y-2 text-sm text-primary-foreground/70">
-            <li><Link to="/shop" className="hover:text-accent">All products</Link></li>
-            <li><Link to="/shop" search={{ category: "cases" }} className="hover:text-accent">Phone cases</Link></li>
-            <li><Link to="/shop" search={{ category: "chargers" }} className="hover:text-accent">Chargers</Link></li>
-            <li><Link to="/shop" search={{ category: "audio" }} className="hover:text-accent">Audio</Link></li>
+            <li>
+              <Link to="/shop" className="hover:text-accent">
+                All products
+              </Link>
+            </li>
+            <li>
+              <Link to="/shop" search={{ category: "cases" }} className="hover:text-accent">
+                Phone cases
+              </Link>
+            </li>
+            <li>
+              <Link to="/shop" search={{ category: "chargers" }} className="hover:text-accent">
+                Chargers
+              </Link>
+            </li>
+            <li>
+              <Link to="/shop" search={{ category: "audio" }} className="hover:text-accent">
+                Audio
+              </Link>
+            </li>
           </ul>
         </div>
         <div>
           <h4 className="font-display text-sm font-semibold uppercase tracking-wider">Company</h4>
           <ul className="mt-3 space-y-2 text-sm text-primary-foreground/70">
-            <li><Link to="/about" className="hover:text-accent">About us</Link></li>
-            <li><Link to="/contact" className="hover:text-accent">Contact</Link></li>
-            <li><Link to="/terms" className="hover:text-accent">Terms & Conditions</Link></li>
-            <li><Link to="/privacy" className="hover:text-accent">Privacy Policy</Link></li>
-            <li><Link to="/returns" className="hover:text-accent">Returns Policy</Link></li>
-            <li><Link to="/auth" className="hover:text-accent">Sign in</Link></li>
+            <li>
+              <Link to="/about" className="hover:text-accent">
+                About us
+              </Link>
+            </li>
+            <li>
+              <Link to="/contact" className="hover:text-accent">
+                Contact
+              </Link>
+            </li>
+            <li>
+              <Link to="/terms" className="hover:text-accent">
+                Terms & Conditions
+              </Link>
+            </li>
+            <li>
+              <Link to="/privacy" className="hover:text-accent">
+                Privacy Policy
+              </Link>
+            </li>
+            <li>
+              <Link to="/returns" className="hover:text-accent">
+                Returns Policy
+              </Link>
+            </li>
+            <li>
+              <Link to="/auth" className="hover:text-accent">
+                Sign in
+              </Link>
+            </li>
           </ul>
         </div>
         <div>
           <h4 className="font-display text-sm font-semibold uppercase tracking-wider">Reach us</h4>
           <ul className="mt-3 space-y-2 text-sm text-primary-foreground/70">
-            <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-accent" /> {brand.phone}</li>
-            <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-accent" /> {brand.email}</li>
-            <li className="flex items-center gap-2"><MapPin className="h-4 w-4 text-accent" /> {brand.location}</li>
+            <li className="flex items-center gap-2">
+              <Phone className="h-4 w-4 text-accent" /> {brand.phone}
+            </li>
+            <li className="flex items-center gap-2">
+              <Mail className="h-4 w-4 text-accent" /> {brand.email}
+            </li>
+            <li className="flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-accent" /> {brand.location}
+            </li>
           </ul>
         </div>
       </div>
